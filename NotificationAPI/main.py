@@ -11,7 +11,7 @@ from firebase_admin import firestore
 
 app = Flask(__name__)
 cors = CORS(app, resorces={r'/d/*': {"origins": '*'}})
-connection = pymssql.connect(server='34.132.235.237', user='sqlserver', password='1234', database='cloudapp')
+connection = pymssql.connect(server='yourserver', user='user', password='pwd', database='database')
 cred = credentials.Certificate("notify-new-firebase-adminsdk-mi5z2-e765829aca.json")
 firebase_admin.initialize_app(cred)
 firestore_db= firestore.client()
@@ -108,7 +108,7 @@ def sendpushnotification():
         clickAction=content["clickaction"]
         headers = {
             'Content-Type': 'application/json',
-            'Authorization': 'key=AAAAeXmdUIg:APA91bE21RRxQMKcfUa-7HddZ0UBZYfpJrve84n4I-gssinAdgLS7PM4b-pts-Bz1Tf4Epx-6ioKncSkhify-Yqi5_90txCCJsSOiLRZWcDHjdG_HxcuJT-1PhumH-c9NnbwNpzCVcYY',
+            'Authorization': "FCM authkey",
         }
         body= {
     "notification":{
