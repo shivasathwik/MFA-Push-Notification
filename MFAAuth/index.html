@@ -11,7 +11,7 @@
         var email=query.split("=")[1]
         const tokenUpdateURL="https://notificationapi-dot-mnsasista.uc.r.appspot.com/api/updatetoken/"+email
         firebase.initializeApp({
-            'messagingSenderId': '521731395720'
+            'messagingSenderId': 'senderId'
         })
         const messaging = firebase.messaging();
 
