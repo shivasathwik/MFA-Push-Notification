@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MFA Confirmation</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        var query = location.href.split("?")[1]
+        var decoded=atob(query.split("=")[1])
+        $("#mes").html("Hello "+decoded.split(":")[0]+" did you try to login??? If yes please confirm");
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="mes"></div>
+        <br/>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" name="action" id="approve" value="approve"><span class="glyphicon glyphicon-thumbs-up"></span>Approve</button>
+            <button type="submit" class="btn btn-danger" name="action" id="deny" value="deny"><span class="glyphicon glyphicon-thumbs-down"></span>Deny</button>
+        </div>
+    </div>
+</body>
+</html>

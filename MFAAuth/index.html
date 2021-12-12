@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-messaging.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+        var query = location.href.split("?")[1]
+        var email=query.split("=")[1]
+        const tokenUpdateURL="https://notificationapi-dot-mnsasista.uc.r.appspot.com/api/updatetoken/"+email
+        firebase.initializeApp({
+            'messagingSenderId': '521731395720'
+        })
+        const messaging = firebase.messaging();
+
+        function initFirebaseMessagingRegistration() {
+            messaging
+                .requestPermission()
+                .then(function () {
+                    console.log("Got notification permission");
+                    return messaging.getToken();
+                })
+                .then(function (token) {
+                    // Call Update API to update user token
+                    var data={"token":token}
+                    $.ajax({
+                    type: 'PATCH',
+                    url: tokenUpdateURL,
+                    data: JSON.stringify(data),
+                    processData: false,
+                     contentType: 'application/json',
+                    success(res){
+                        console.log(res);
+                        window.close();
+                    },
+                    error(err){
+                        console.log(err.error);
+                        window.close();
+                    }
+                    });
+                })
+                .catch(function (err) {
+                    errorElement.innerHTML = "Error: " + err;
+                    console.log("Didn't get notification permission", err);
+                });
+        }
+        messaging.onMessage(function (payload) {
+            console.log("Message received. ", JSON.stringify(payload));
+        });
+        messaging.onTokenRefresh(function () {
+            messaging.getToken()
+                .then(function (refreshedToken) {
+                    console.log('Token refreshed.');
+                }).catch(function (err) {
+                    errorElement.innerHTML = "Error: " + err;
+                    console.log('Unable to retrieve refreshed token ', err);
+                });
+        });
+    });
+    </script>
+</head>
+<body>
+    <p id="welcomemes"></p>
+    <div  id="error" style="color:red"></div>
+    <script>
+        pElement = document.getElementById("welcomemes")
+        pElement.innerHTML="Welcome "+email+" to the Cloud Authenticator. Please enable push notification to allow the app to send notification"
+        errorElement = document.getElementById("error")
+    </script>
+    <button onclick="initFirebaseMessagingRegistration()">Enable Push notification</button>
+</html>
